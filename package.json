@@ -1,0 +1,22 @@
+{
+  "name": "bamazon-app",
+  "version": "0.1.0",
+  "description": "An amazon like app which uses MySQL database and Nodejs",
+  "main": "bamazonCustomer.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/georgejincy/Bamazon-app.git"
+  },
+  "author": "Jincy George",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/georgejincy/Bamazon-app/issues"
+  },
+  "homepage": "https://github.com/georgejincy/Bamazon-app#readme",
+  "dependencies": {
+    "console.table": "^0.8.0"
+  }
+}
