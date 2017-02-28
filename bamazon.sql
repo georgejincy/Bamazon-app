@@ -10,7 +10,7 @@ PRIMARY KEY(item_id)
 );
 
 INSERT INTO products 
-	(item_id, product_name, department_name, price, stock_quantity)
+	(product_name, department_name, price, stock_quantity)
 VALUES
 	("The Wonderful Things You Will Be", "Books", 7.99, 10),
     ("Angelina Tencel Trench Coat", "Clothing", 195.00, 5),
