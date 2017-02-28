@@ -22,3 +22,6 @@ VALUES
     ("Maple Dining table on gear bases", "Furniture", 490.00, 3),
     ("Live Edge Walnut Dining Table Set", "Furniture", 899.00, 8),
     ("Weekly Menu and Grocery List for Happy Planner", "Stationery", 18.95, 8);
+
+ALTER TABLE products
+MODIFY column price DECIMAL(10,2);
