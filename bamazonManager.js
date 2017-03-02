@@ -169,7 +169,8 @@ var addProduct = function(){
         return true;
       }
       return false;
-    },
+    }
+  },
   {
     name: "stock",
     type: "input",

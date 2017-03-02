@@ -38,10 +38,12 @@ var initializeApp = function(){
     name: "productID",
     type: "input",
     message: "What would you like to buy? Please enter the Item ID",
-    validate: function(input){
+    validate: function(value){
 
-	    	if(input < 11 ) return true;
-	    	return 'Invalid Item ID. Please enter a valid Item ID. ';
+	    	if (isNaN(value) === false) {
+        return true;
+      }
+      return false;
     
     }
   	}).then(function(answer) {
@@ -118,19 +120,21 @@ var doExit = function(){
 
 //This function proceesess the user input Item ID and quantity and updates the database
 var processOrder = function(id, quantity){
-	var query = "SELECT stock_quantity FROM products WHERE ?";
+	var query = "SELECT * FROM products WHERE ?";
 	connection.query(query, {item_id: id}, function(err, res) {
 		  if(err) throw err;
-    	//console.log(res[0].stock_quantity);
+    	console.log(res);
 
     	if(res[0].stock_quantity < quantity){
     		console.log("Insufficient quantity!");
     	}else{
-    		updStock = res[0].stock_quantity - quantity;
+    		var updStock = res[0].stock_quantity - quantity;
+        var sales = res[0].product_sales + (res[0].price * quantity);
+        console.log(sales);
     		//console.log(updStock);
-    		var query = "UPDATE products SET ? WHERE ?";
-    		connection.query(query, [{stock_quantity: updStock}, {item_id: id}], function(err, res) {
-    			//if(err) throw err;
+    		var query = "UPDATE products SET stock_quantity = ?, product_sales = ? WHERE item_id = ?";
+    		connection.query(query, [updStock, sales, id], function(err, res) {
+    			if(err) throw err;
     			console.log("Order Placed! Thank you");
 
           doExit();
