@@ -123,7 +123,7 @@ var processOrder = function(id, quantity){
 	var query = "SELECT * FROM products WHERE ?";
 	connection.query(query, {item_id: id}, function(err, res) {
 		  if(err) throw err;
-    	console.log(res);
+    	//console.log(res);
 
     	if(res[0].stock_quantity < quantity){
     		console.log("Insufficient quantity!");
@@ -131,7 +131,7 @@ var processOrder = function(id, quantity){
     		var updStock = res[0].stock_quantity - quantity;
         var sales = (res[0].price * quantity);
         
-        console.log(sales);
+        //console.log(sales);
     		//console.log(updStock);
         //update stock quantity and product sales for each sale
     		var query = "UPDATE products SET stock_quantity = ?, product_sales = ? WHERE item_id = ?";
