@@ -40,7 +40,7 @@ var initializeApp = function(){
   switch (answer.action) {
       case "View Product Sales by Department":
         console.log("View Product Sales by Department");
-        //viewProductSales();
+        viewProductSales();
         break;
       case "Create New Department":
         console.log("Create New Department");
@@ -55,3 +55,19 @@ var initializeApp = function(){
 });
 
 };
+
+// This function allows a supervisor to View Product Sales by Department
+var viewProductSales = function(){
+  //Display all items available for sale on bamazon
+  var query = "SELECT * FROM departments";
+    connection.query(query, function(err, res) {
+    if(err) throw err;
+    console.log('\n');
+    //console.log(res);
+    console.table(res);
+    //display main menu
+    initializeApp();
+  });
+
+
+  };
