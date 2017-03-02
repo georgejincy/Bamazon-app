@@ -44,7 +44,7 @@ var initializeApp = function(){
         break;
       case "Create New Department":
         console.log("Create New Department");
-        //addDepartment();
+        addDepartment();
         break;
       
       case "Exit application":
@@ -68,6 +68,38 @@ var viewProductSales = function(){
     //display main menu
     initializeApp();
   });
+
+
+  };
+
+// This function allows supervisor to add a new department.
+var addDepartment = function(){
+
+  inquirer.prompt([{
+    name: "department",
+    type: "input",
+    message: "What is the name of the department?"
+  }, {
+    name: "overhead",
+    type: "input",
+    message: "What is the overhead costs for the department?"
+    validate: function(value) {
+      if (isNaN(value) === false) {
+        return true;
+      }
+      return false;
+    }
+  }]).then(function(answer) {
+    connection.query("INSERT INTO departments SET ?", {
+      department_name: answer.department,
+      over_head_costs: parseFloat(answer.overhead).toFixed(2),
+      total_sales: 0.00
+    }, function(err, res) {
+      console.log("New department was added successfully!");
+      viewProductSales();
+    });
+  });
+
 
 
   };
