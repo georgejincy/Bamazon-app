@@ -62,10 +62,24 @@ var viewProductSales = function(){
   var query = "SELECT * FROM departments";
     connection.query(query, function(err, res) {
     if(err) throw err;
-    console.log('\n');
-    //console.log(res);
-    console.table(res);
+
+    var results = [];
+
+    for (var i = 0; i < res.length; i++) {
+
+    var dept = {
+      department_id: res[i].department_id,
+      department_name: res[i].department_name,
+      over_head_costs: res[i].over_head_costs,
+      total_sales: res[i].total_sales,
+      total_profit: res[i].total_sales - res[i].over_head_costs
+    };
+
+    results.push(dept);
+   
+  }
     //display main menu
+    console.table(results);
     initializeApp();
   });
 
@@ -82,7 +96,7 @@ var addDepartment = function(){
   }, {
     name: "overhead",
     type: "input",
-    message: "What is the overhead costs for the department?"
+    message: "What is the overhead costs for the department?",
     validate: function(value) {
       if (isNaN(value) === false) {
         return true;
