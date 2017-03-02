@@ -18,7 +18,6 @@ connection.connect(function(err) {
   if (err) throw err;
   console.log("Connected");
   initializeApp();
-
   
 });
 
@@ -48,22 +47,34 @@ var initializeApp = function(){
   	}).then(function(answer) {
     
     	//console.log(answer.productID);
-    	pdtID = answer.productID;
+    	pdtID = parseInt(answer.productID);
+
+      for (var i = 0; i < res.length; i++) {
+        if (res[i].item_id === pdtID) {
+          //console.log(res[i]);
+          var chosenItem = res[i];
       
-      //Prompt for quantity
-      inquirer.prompt({
-	    name: "quantity",
-	    type: "input",
-	    message: "How many units of the product would you like to buy?",
-	    validate: function(input){
-	    	if (input <=0 ) return 'Please enter quantity greater than zero';
-	    	return true;
-	    }
-	  	}).then(function(answer) {
-	  		//console.log("Units: " + answer.quantity);
-	  		quantity = answer.quantity;
-	  		processOrder(pdtID, quantity);
-	  	});
+          //Prompt for quantity
+          inquirer.prompt({
+    	    name: "quantity",
+    	    type: "input",
+    	    message: "How many units of the product would you like to buy?",
+    	    validate: function(input){
+    	    	if (parseInt(input) <=0 ){
+              return 'Please enter quantity greater than zero';
+            } 
+            else if(parseInt(input) > chosenItem.stock_quantity){
+              return 'Insufficient quantity';
+            }
+    	    	return true;
+    	    }
+    	  	}).then(function(answer) {
+    	  		//console.log("Units: " + answer.quantity);
+    	  		quantity = parseInt(answer.quantity);
+    	  		processOrder(pdtID, quantity);
+    	  	});
+        }
+      }
 
     });
 
@@ -109,14 +120,14 @@ var doExit = function(){
 var processOrder = function(id, quantity){
 	var query = "SELECT stock_quantity FROM products WHERE ?";
 	connection.query(query, {item_id: id}, function(err, res) {
-		//if(err) throw err;
-    	console.log(res[0].stock_quantity);
+		  if(err) throw err;
+    	//console.log(res[0].stock_quantity);
 
     	if(res[0].stock_quantity < quantity){
     		console.log("Insufficient quantity!");
     	}else{
     		updStock = res[0].stock_quantity - quantity;
-    		console.log(updStock);
+    		//console.log(updStock);
     		var query = "UPDATE products SET ? WHERE ?";
     		connection.query(query, [{stock_quantity: updStock}, {item_id: id}], function(err, res) {
     			//if(err) throw err;
