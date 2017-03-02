@@ -129,15 +129,31 @@ var processOrder = function(id, quantity){
     		console.log("Insufficient quantity!");
     	}else{
     		var updStock = res[0].stock_quantity - quantity;
-        var sales = res[0].product_sales + (res[0].price * quantity);
+        var sales = (res[0].price * quantity);
+        
         console.log(sales);
     		//console.log(updStock);
+        //update stock quantity and product sales for each sale
     		var query = "UPDATE products SET stock_quantity = ?, product_sales = ? WHERE item_id = ?";
-    		connection.query(query, [updStock, sales, id], function(err, res) {
+    		connection.query(query, [updStock, sales, id], function(err, result) {
     			if(err) throw err;
     			console.log("Order Placed! Thank you");
 
-          doExit();
+        var query = "SELECT * FROM departments WHERE department_name = ?";
+        connection.query(query, [res[0].department_name], function(err, result) {
+        if(err) throw err;
+        var totsales = result[0].total_sales + sales;
+  
+            //update department table with total revenue
+            var query = "UPDATE departments SET total_sales = ? WHERE department_name = ?";
+            connection.query(query, [totsales, res[0].department_name], function(err, result) {
+            if(err) throw err;
+            console.log("Updated department sales");
+
+              doExit();
+            });
+        });
+
           
     		});
 

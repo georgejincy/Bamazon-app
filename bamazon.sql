@@ -36,3 +36,14 @@ over_head_costs DECIMAL(10,2),
 total_sales DECIMAL(10,2),
 PRIMARY KEY(department_id)
 );
+
+INSERT INTO departments
+    (department_name, over_head_costs, total_sales)
+VALUES
+    ("Books", 120.99, 0.00),
+    ("Clothing", 150.99, 0.00),
+    ("Home & Kitchen", 1200.99, 0.00),
+    ("Garden", 999.99, 0.00),
+    ("Electronics", 599.99, 0.00),
+    ("Furniture", 799.99, 0.00),
+    ("Stationery", 120.99, 0.00);
